@@ -1,0 +1,77 @@
+﻿@model List<Web_Reports.Entities.InfiniaWebReport>
+@{
+    ViewData["Title"] = "ReportList";
+    Layout = "~/Views/Shared/_WebReport.cshtml";
+    int sayi = 0;
+}
+
+<!DOCTYPE html>
+<html>
+
+
+<!-- /.card-header -->
+<div class="card-body">
+    <h4>Rapor Sorguları Listesi</h4>
+    <br /> <br />
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Rapor No</th>
+                <th>Rapor İsmi</th>
+                <th>Rapor Query</th>
+                <th>Sil - Güncelle - Detay</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                sayi++;
+                <tr>
+                    <td>@sayi</td>
+                    <td>@item.ReportId</td>
+                    <td>@item.ReportName</td>
+                    <td>@(item.Query.Length > 50 ? item.Query.Substring(0, 50) + "..." : item.Query)</td>
+                    <td class="text-center">
+                        <a href="/Management/DeleteReport/@item.AutoId" class="btn btn-outline-danger" style="margin-right:25px;">Sil</a>
+                        <a href="/Management/EditReport/@item.AutoId" class="btn btn-outline-success" style="margin-right:25px;">Güncelle</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <button class="btn btn-primary" data-toggle="modal" data-target="#Modal1">Yeni Rapor Ekle</button>
+</div>
+@*PENCERE*@
+
+
+<div class="modal" id="Modal1" style="margin-top:-65px;">
+    <div class="modal-dialog modal-xl modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Yeni Rapor Ekleme Paneli</h2>
+            </div>
+            <form method="post" action="/Management/AddReport">
+                <div class="modal-body">
+                    <label>Rapor ID</label>
+                    <input type="text" name="ReportID" class="form-control" required />
+                    <br />
+                    <label>Rapor İsmi</label>
+                    <input type="text" name="ReportName" class="form-control" required />
+                    <br />
+                    <label>Sorgu</label>
+                    <textarea type="text" name="Query" rows="20" cols="50" class="form-control" required></textarea>
+                    <br />
+                    <button class="btn btn-success" style="margin-left:25%; width:50%">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</html>
+
+

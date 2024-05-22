@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_WebReport.cshtml";
+}
+
+
+<div class="col-md-12">
+    <br /><br /><br />
+    <h4>Yönetim Ekranına Giriş İçin Şifre Giriniz</h4>
+    <form method="post" class="table-bordered" style="height:300px;">
+        <div class="modal-body">
+            <br /><br />
+            <input class="form-control" type="password" name="p" placeholder="Şifreyi Giriniz..." />
+            @Html.ValidationSummary(false,"", new { @class = "text-danger" })
+            <br /><br />
+            <button class="btn btn-success" style="margin-left:25%; width:50%">Giriş Yapın</button>
+        </div>
+    </form>
+</div>

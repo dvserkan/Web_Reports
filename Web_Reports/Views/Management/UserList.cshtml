@@ -1,0 +1,98 @@
+﻿@model List<Web_Reports.Entities.InfiniaWebReportUser>
+
+@{
+    ViewData["Title"] = "UserList";
+    Layout = "~/Views/Shared/_WebReport.cshtml";
+    int sayi = 0;
+}
+
+<!DOCTYPE html>
+<html>
+
+
+<!-- /.card-header -->
+<div class="card-body">
+    <h4>Kullanıcılar Listesi</h4>
+    <br /> <br />
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Adı - Soyadı</th>
+                <th>Kullanıcı Adı</th>
+                <th class="text-center">Resim</th>
+                <th>Kategorisi</th>
+                <th>Rolü</th>
+                <th>Sil - Güncelle</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                sayi++;
+                <tr>
+                    <td>@sayi</td>
+                    <td>@item.NameSurname</td>
+                    <td>@item.UserName</td>
+                    <td class="text-center"><img src="@item.İmageUrl" style="width:55px;height:55px;"/></td>
+                    <td>@item.CategoryName</td>
+                    <td>@item.Role</td>
+                    <td class="text-center">
+                        <a href="/Management/DeleteUser/@item.AutoId" class="btn btn-outline-danger" style="margin-right:25px;">Sil</a>
+                        <a href="/Management/EditUser/@item.AutoId" class="btn btn-outline-success" style="margin-right:25px;">Güncelle</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <button class="btn btn-primary" data-toggle="modal" data-target="#Modal1">Yeni Kullanıcı Ekle</button>
+</div>
+@*PENCERE*@
+
+
+<div class="modal" id="Modal1" style="margin-top:-65px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Yeni Kullanıcı Ekleme Paneli</h2>
+            </div>
+            @using (Html.BeginForm("AddUser", "Management", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <form method="post" action="/Management/AddUser">
+                    <div class="modal-body">
+                        <label>Adı - Soyadı</label>
+                        <input type="text" name="NameSurname" class="form-control" />
+                        <br />
+                        <label>Kullanıcı Adı</label>
+                        <input type="text" name="UserName" class="form-control" />
+                        <br />
+                        <label>Şifre</label>
+                        <input type="password" name="UserPassword" class="form-control" />
+                        <br />
+                        <label>Kategorisi</label>
+                        <select name="CategoryName" class="form-control">
+                            <option disabled selected hidden>Kategoriyi Seçiniz...</option>
+                            <option name="CategoryName" value="Süper Admin">Süper Admin</option>
+                            <option name="CategoryName" value="Bölge Sorumlusu">Bölge Sorumlusu</option>
+                        </select>
+                        @*       @Html.DropDownListFor(x => x.CategoryName, (List<SelectListItem>)ViewBag.category, new { @class = "form-control" }) *@
+                        <br />
+                        <label>Rolü</label>
+                        <input type="text" name="Role" class="form-control" />
+                        <br />
+                        <label>Resim Url</label>
+                        <input type="text" name="İmageUrl" class="form-control" />
+                        <br />
+                        <button class="btn btn-success" style="margin-left:25%; width:50%">Kaydet</button>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>
+
+</html>
+
+

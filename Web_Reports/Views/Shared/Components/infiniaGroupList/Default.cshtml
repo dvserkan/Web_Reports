@@ -1,0 +1,40 @@
+﻿@model List<Web_Reports.Entities.InfiniaWebReportGroup>
+
+
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        @if (ViewBag.role == "Süper Admin")
+        {
+            @foreach (var item in Model)
+            {
+
+                <li class="nav-item active mt-2">
+                    <a class="nav-link" href="@item.ColorValue">
+                        <i class="@item.Svg menu-icon"></i>
+                        <span class="menu-title">@item.GroupName</span>
+                    </a>
+                </li>
+            }
+        }else
+        {
+            <li class="nav-item active mt-2">
+                <a class="nav-link" href="/Default/DashboardIndex/">
+                    <i class="icon-grid menu-icon"></i>
+                    <span class="menu-title">DashBoard</span>
+                </a>
+            </li>
+            <li class="nav-item active mt-2">
+                <a class="nav-link" href="/Hesap/Index/">
+                    <i class="ti-settings menu-icon"></i>
+                    <span class="menu-title">Hesap İşlemleri</span>
+                </a>
+            </li>
+            <li class="nav-item active mt-2">
+                <a class="nav-link" href="/Login/LogOut/">
+                    <i class="ti-power-off menu-icon"></i>
+                    <span class="menu-title">Çıkış Yap</span>
+                </a>
+            </li>
+        }
+    </ul>
+</nav>

@@ -1,0 +1,113 @@
+﻿@{
+    ViewData["Title"] = "GetReport";
+    Layout = "~/Views/Shared/_WebReport.cshtml";
+}
+
+<br />
+<h2>Satış Raporlama Sayfası</h2>
+<br />
+<br />
+<br />
+<form id="reportForm" asp-controller="Default" asp-action="GetReport" method="post" class="ml-5">
+    <div class="form-row">
+        <div class="col">
+            <label for="startDate">Başlangıç Tarihi:</label>
+            <input type="date" id="startDate" class="form-control" name="p1" required>
+        </div>
+        <div class="col">
+            <label for="endDate">Bitiş Tarihi:</label>
+            <input type="date" id="endDate" class="form-control" name="p2" required>
+        </div>
+        <input type="hidden" id="p3" name="p3" value="1">
+        <button class="btn btn-outline-primary mt-2 ml-3" type="submit">Uygula</button>
+    </div>
+    <br />
+</form>
+
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Rapor Raporlama Sayfası</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+</head>
+<body>
+
+    @Html.Raw(ViewBag.HtmlTable2)
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var table = $('#example').DataTable({
+
+                dom: 'lBfrtip',
+                buttons: [
+                    { extend: 'copy', text: 'Kopyala' },
+                    { extend: 'excel', text: 'Excel\'e Aktar' },
+                    { extend: 'pdf', text: 'PDF\'e Aktar' },
+                    { extend: 'print', text: 'Yazdır' }
+                ],
+                responsive: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/2.0.3/i18n/tr.json'
+                },
+                pagingType: 'full_numbers',
+                pageLength: 10, // Sayfa başına varsayılan kayıt sayısı
+                oLanguage: {
+                    sSearch: "Ara:",
+                    oPaginate: {
+                        sFirst: "İlk",
+                        sPrevious: "Önceki",
+                        sNext: "Sonraki",
+                        sLast: "Son"
+                    },
+                    sInfo: "_TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor",
+                    sInfoEmpty: "Kayıt yok",
+                    sInfoFiltered: "(_MAX_ kayıt içerisinden bulunan)"
+                },
+                // Show entries alanını kaldırma
+                bLengthChange: false
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#reportForm").submit(function (event) {
+                event.preventDefault(); // Formun otomatik gönderilmesini engelle
+                var p3Value = $("#p3").val(); // p3 değerini al
+                var startDateValue = $("#startDate").val(); // Başlangıç tarihini al
+                var endDateValue = $("#endDate").val(); // Bitiş tarihini al
+                var actionUrl = $(this).attr("action") + "?" + p3Value; // URL'yi oluştur
+                $(this).attr("action", actionUrl); // Formun action attribute'una oluşturulan URL'yi ata
+                this.submit(); // Formu gönder
+            });
+
+            // Sayfa yüklendiğinde, URL'den p3 değerini al ve gizli input alanına atar. kaynak : https://stackoverflow.com/questions/7077770/window-location-href-and-window-open-methods-in-javascript 
+            //                                                                                   https://stackoverflow.com/questions/14359326/issues-with-indexof-and-lastindexof-on-substring-get-part-of-url-from-string
+            var url = window.location.href;
+            var lastValue = url.substring(url.lastIndexOf('?') + 1);
+            $("#p3").val(lastValue);
+        });
+    </script>
+
+</body>
+</html>
+
+

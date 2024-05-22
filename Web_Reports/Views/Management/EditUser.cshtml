@@ -1,0 +1,36 @@
+﻿@model Web_Reports.Entities.InfiniaWebReportUser
+@{
+    ViewData["Title"] = "EditUser";
+    Layout = "~/Views/Shared/_WebReport.cshtml";
+}
+
+<br />
+<h4>Kullanıcı Düzenleme Sayfası</h4>
+<br />
+<br />
+<form method="post" class="col-md-12">
+    @Html.HiddenFor(x => x.AutoId)
+    <br />
+    @Html.Label("İsim - Soyisim")
+    @Html.TextBoxFor(x => x.NameSurname, new { @class = "form-control" })
+    <br />
+    @Html.Label("Kullanıcı Adı")
+    @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
+    <br />
+    @Html.Label("Resim Url")
+    @Html.TextBoxFor(x => x.İmageUrl, new { @class = "form-control" })
+    <br />
+    @Html.Label("Kategorisi")
+    <select name="CategoryName" class="form-control">
+        <option disabled selected hidden>Kategoriyi Seçiniz...</option>
+        <option name="CategoryName" value="Süper Admin">Süper Admin</option>
+        <option name="CategoryName" value="Bölge Sorumlusu">Bölge Sorumlusu</option>
+    </select>
+    <br /
+    @Html.Label("Rolü")
+    @Html.TextBoxFor(x => x.Role, new { @class = "form-control" })
+    <br />
+    <button class="btn btn-success">Güncelle</button>
+</form>
+
+

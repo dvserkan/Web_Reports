@@ -1,0 +1,79 @@
+﻿@model Web_Reports.Entities.InfiniaWebReportUser
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_WebReport.cshtml";
+}
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+@using (Html.BeginForm("Index", "Hesap", FormMethod.Post, new { @class = "form-horizontal", id = "updateForm" }))
+{
+    <br />
+    <h2 class="text-center">Kullanıcı Bilgi Paneli</h2>
+    <br />
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        @Html.HiddenFor(x => x.AutoId)
+
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">İsim Soyisim:</label>
+                            <div class="col-sm-12">
+                                @Html.TextBoxFor(x => x.NameSurname, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">Kullanıcı Adı:</label>
+                            <div class="col-sm-12">
+                                @Html.TextBoxFor(x => x.UserName, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">Şifre:</label>
+                            <div class="col-sm-12">
+                                @Html.TextBoxFor(x => x.UserPassword, new { @class = "form-control", type = "password" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-12 col-form-label">Resim:</label>
+                            <div class="col-sm-12">
+                                @Html.TextBoxFor(x => x.İmageUrl, new { @class = "form-control", placeholder = "Resim URL'sini buraya girin" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-outline-success">Bilgilerimi Güncelle</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    // Github Repo Temin Ettim. https://github.com/sweetalert2/sweetalert2
+    // Form submit edildiğinde
+    document.getElementById('updateForm').addEventListener('submit', function (event) {
+        // Öncelikle formun default submit işlemini engelle
+        event.preventDefault();
+
+        // SweetAlert ile mesaj göster
+        Swal.fire({
+            icon: 'success',
+            title: 'İşlem başarıyla tamamlandı!',
+            text: 'Giriş sayfasına yönlendiriliyorsunuz...',
+            showConfirmButton: false,
+            timer: 2000 // 2 saniye sonra otomatik kapanacak
+        }).then(function () {
+            // Otomatik kapanma sonrasında, formun submit işlemini gerçekleştir
+            document.getElementById('updateForm').submit();
+        });
+    });
+</script>
